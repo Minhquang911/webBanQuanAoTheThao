@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý sản phẩm - Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="admin.css">
+    <style>
+        .admin-header {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .admin-welcome {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .admin-welcome i {
+            font-size: 1.5rem;
+            color: #3b82f6;
+        }
+
+        .admin-welcome span {
+            font-size: 1.1rem;
+            color: #1f2937;
+            font-weight: 500;
+        }
+
+        .logout-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: #ef4444;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .logout-btn i {
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="admin-header">
+            <div class="admin-welcome">
+                <i class="bi bi-person-circle"></i>
+                <span>Xin chào Admin, một ngày mới tốt lành!</span>
+            </div>
+            <button type="button" class="logout-btn" onclick="handleLogout()">
+                <i class="bi bi-box-arrow-right"></i>
+                Đăng xuất
+            </button>
+        </div>
+
+        <div class="wrapper">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-header">
+                    <img src="images/sport.png" alt="Sports Logo" class="sidebar-logo">
+                    <h3>SPORTS</h3>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">
+                            <div class="nav-content">
+                                <i class="bi bi-speedometer2"></i>
+                                <span>Tổng quan</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="categories.html">
+                            <div class="nav-content">
+                                <i class="bi bi-grid"></i>
+                                <span>Danh mục</span>
+                                <span class="badge bg-primary rounded-pill">5</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="products.html">
+                            <div class="nav-content">
+                                <i class="bi bi-box"></i>
+                                <span>Sản phẩm</span>
+                                <span class="badge bg-primary rounded-pill">12</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="orders.html">
+                            <div class="nav-content">
+                                <i class="bi bi-cart"></i>
+                                <span>Đơn hàng</span>
+                                <span class="badge bg-primary rounded-pill">8</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="customers.html">
+                            <div class="nav-content">
+                                <i class="bi bi-people"></i>
+                                <span>Khách hàng</span>
+                                <span class="badge bg-primary rounded-pill">25</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="reports.html">
+                            <div class="nav-content">
+                                <i class="bi bi-graph-up"></i>
+                                <span>Báo cáo</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="settings.html">
+                            <div class="nav-content">
+                                <i class="bi bi-gear"></i>
+                                <span>Cài đặt</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Page Content -->
+                <div class="content">
+                    <div class="container-fluid">
+                        <!-- Page Header -->
+                        <div class="page-header">
+                            <h1 class="page-title">Quản lý sản phẩm</h1>
+                            <div class="page-actions">
+                                <div class="search-box">
+                                    <i class="bi bi-search"></i>
+                                    <input type="text" class="form-control" id="searchInput" placeholder="Tìm kiếm sản phẩm...">
+                                    <button class="btn btn-outline-secondary" onclick="clearSearch()">
+                                        <i class="bi bi-x"></i>
+                                    </button>
+                                </div>
+                                <button class="btn btn-primary" onclick="addProduct()">
+                                    <i class="bi bi-plus-lg"></i> Thêm sản phẩm
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Filters -->
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Danh mục</label>
+                                        <select class="form-select" id="categoryFilter">
+                                            <option value="">Tất cả danh mục</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Trạng thái</label>
+                                        <select class="form-select" id="statusFilter">
+                                            <option value="">Tất cả trạng thái</option>
+                                            <option value="1">Còn hàng</option>
+                                            <option value="0">Hết hàng</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 d-flex align-items-end">
+                                        <button class="btn btn-outline-secondary w-100" onclick="clearFilters()">
+                                            <i class="bi bi-x-circle"></i> Xóa bộ lọc
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product List -->
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th style="width: 80px">Ảnh</th>
+                                                <th>Tên sản phẩm</th>
+                                                <th>Danh mục</th>
+                                                <th>Giá</th>
+                                                <th>Trạng thái</th>
+                                                <th class="text-end">Thao tác</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="productList">
+                                            <!-- Products will be loaded here -->
+                                        </tbody>
+                                    </table>
+                                    
+                                    <!-- Empty State -->
+                                    <div id="emptyState" class="text-center py-5" style="display: none;">
+                                        <i class="bi bi-inbox"></i>
+                                        <p class="mt-3 mb-0">Không có sản phẩm nào</p>
+                                    </div>
+
+                                    <!-- Loading State -->
+                                    <div id="loadingState" class="text-center py-5" style="display: none;">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Đang tải...</span>
+                                        </div>
+                                        <p class="mt-3 mb-0">Đang tải sản phẩm...</p>
+                                    </div>
+                                </div>
+
+                                <!-- Pagination -->
+                                <nav class="mt-4" id="pagination">
+                                    <ul class="pagination justify-content-center">
+                                        <!-- Pagination will be generated here -->
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+
+                        <!-- Product Form -->
+                        <div class="card" id="productForm" style="display: none;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h5 class="card-title" id="formTitle">Thêm sản phẩm</h5>
+                                    <button class="btn btn-outline-secondary" onclick="showProductList()">
+                                        <i class="bi bi-arrow-left"></i> Quay lại
+                                    </button>
+                                </div>
+                                <form id="addEditForm" onsubmit="saveProduct(event)" novalidate>
+                                    <input type="hidden" id="productId">
+                                    
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="mb-3">
+                                                <label for="productName" class="form-label">Tên sản phẩm <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="productName" required>
+                                                <div class="invalid-feedback">
+                                                    Vui lòng nhập tên sản phẩm
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="productCategory" class="form-label">Danh mục <span class="text-danger">*</span></label>
+                                                <select class="form-select" id="productCategory" required>
+                                                    <option value="">Chọn danh mục</option>
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Vui lòng chọn danh mục
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="productPrice" class="form-label">Giá <span class="text-danger">*</span></label>
+                                                        <input type="number" class="form-control" id="productPrice" required min="0">
+                                                        <div class="invalid-feedback">
+                                                            Vui lòng nhập giá sản phẩm
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="productStock" class="form-label">Số lượng <span class="text-danger">*</span></label>
+                                                        <input type="number" class="form-control" id="productStock" required min="0">
+                                                        <div class="invalid-feedback">
+                                                            Vui lòng nhập số lượng
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="productDescription" class="form-label">Mô tả</label>
+                                                <textarea class="form-control" id="productDescription" rows="4"></textarea>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label d-block">Trạng thái</label>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="productStatus" id="statusActive" value="1" checked>
+                                                    <label class="form-check-label" for="statusActive">Còn hàng</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="productStatus" id="statusInactive" value="0">
+                                                    <label class="form-check-label" for="statusInactive">Hết hàng</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label class="form-label">Ảnh sản phẩm</label>
+                                                <div class="text-center border rounded p-3">
+                                                    <img id="productImage" src="placeholder.jpg" class="img-fluid mb-2" style="max-height: 200px;">
+                                                    <input type="file" class="form-control" id="imageInput" accept="image/*">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="alert" id="formAlert" style="display: none;"></div>
+
+                                    <div class="text-end">
+                                        <button type="button" class="btn btn-outline-secondary" onclick="showProductList()">Hủy</button>
+                                        <button type="submit" class="btn btn-primary">Lưu</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <footer class="footer">
+                    <div class="footer-content">
+                        <div class="footer-left">
+                            <span>© 2024 Quản lý bán quần áo thể thao</span>
+                            <a href="#" class="footer-link">Về chúng tôi</a>
+                            <a href="#" class="footer-link">Liên hệ</a>
+                        </div>
+                        <div class="footer-right">
+                            <span>Phiên bản 1.0.0</span>
+                            <a href="#" class="footer-link">Điều khoản sử dụng</a>
+                            <a href="#" class="footer-link">Chính sách bảo mật</a>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="admin.js"></script>
+    <script>
+        // Kiểm tra đăng nhập khi tải trang
+        window.onload = function() {
+            if (!localStorage.getItem('isLoggedIn')) {
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Xử lý đăng xuất
+        function handleLogout() {
+            if (confirm('Bạn có chắc chắn muốn đăng xuất không?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('adminData');
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html> 
