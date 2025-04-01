@@ -50,8 +50,8 @@ git clone https://github.com/yourusername/webBanQuanAoTheThao.git
 # Di chuyển vào thư mục dự án
 cd webBanQuanAoTheThao
 
-# Khởi tạo Git repository (nếu chưa có)
-git init
+# Tạo và chuyển sang nhánh ThieuTrang
+git checkout -b ThieuTrang
 
 # Thêm tất cả file vào Git
 git add .
@@ -62,8 +62,24 @@ git commit -m "Initial commit"
 # Thêm remote repository
 git remote add origin https://github.com/yourusername/webBanQuanAoTheThao.git
 
-# Push code lên GitHub
-git push -u origin main
+# Push code lên nhánh ThieuTrang
+git push -u origin ThieuTrang
+```
+
+### 2. Cập Nhật Code Lên Nhánh ThieuTrang
+
+```bash
+# Kiểm tra đang ở nhánh ThieuTrang
+git branch
+
+# Thêm các file đã thay đổi
+git add .
+
+# Commit thay đổi
+git commit -m "Cập nhật mới"
+
+# Push lên nhánh ThieuTrang
+git push origin ThieuTrang
 ```
 
 ### 3. Thông tin đăng nhập
