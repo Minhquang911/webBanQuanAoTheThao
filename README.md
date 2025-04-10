@@ -63,7 +63,10 @@ git commit -m "Initial commit"
 git remote add origin https://github.com/yourusername/webBanQuanAoTheThao.git
 
 # Push code lên GitHub
-git push -u origin main
+git push origin main
+
+# Pull code từ GitHub về
+git push origin main
 ```
 
 ### 3. Thông tin đăng nhập
